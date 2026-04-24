@@ -3,6 +3,7 @@ import pkg from 'deep-diff';
 const { diff } = pkg;
 import { rules } from "../utils/rules.js";
 import { estimateTime, calculateScore, optimizeYaml } from "../utils/timeCalculator.js";
+import { detectExecutionFlow } from "../utils/execution.js";
 
 export const analyzeYaml = (req, res) => {
   try {
@@ -30,6 +31,8 @@ export const analyzeYaml = (req, res) => {
     // Score
     const score = calculateScore(suggestions);
 
+    const execution = detectExecutionFlow(parsed);
+
     // Optimize
     const optimizedDoc = optimizeYaml(parsed, suggestions);
 
@@ -44,6 +47,7 @@ export const analyzeYaml = (req, res) => {
       parsed,
       estimatedTime,
       suggestions,
+      execution,
       score,
       optimizedYaml,
       diff: differences,

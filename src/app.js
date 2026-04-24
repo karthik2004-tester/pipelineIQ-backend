@@ -7,14 +7,14 @@ import yamlRouter from '../routes/yamlRoutes.js'
 
 const app = express();
 
-app.use(helmet());
 app.use(
   cors({
-    origin: process.env.FRONTEND_URI,
+    origin: process.env.FRONTEND_URI || "http://localhost:5173",
     methods: ["GET", "POST"],
     credentials: true
   }),
 );
+app.use(helmet());
 app.use(express.json());
 app.use(morgan("dev"));
 
